@@ -7,14 +7,16 @@ from rest_framework.decorators import api_view
 # Create your views here.
 
 
-# EXAMPLE
+@api_view(['GET'])
+def check(req):
+    res = {'message':'', 'status':status.HTTP_400_BAD_REQUEST}
+    return Response(res)
 
-# @api_view(['POST'])
-# def savePrediction(req):
-#     try:
-#         print("Saving prediction")
-#         res = service.savePrediction(req.data)
-#         return Response(res, status = status.HTTP_200_OK)
-#     except Exception as e:
-#         print(e)
-#         return Response(status = status.HTTP_400_BAD_REQUEST)
+@api_view(['POST'])
+def farmer_registration(req):
+    try:
+        res = service.farmer_registration(req.data)
+        return Response(res, status = status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        return Response(status = status.HTTP_400_BAD_REQUEST)
