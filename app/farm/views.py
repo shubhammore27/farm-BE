@@ -20,3 +20,21 @@ def farmer_registration(req):
     except Exception as e:
         print(e)
         return Response(status = status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def sendOTP(req):
+    try:
+        res = service.sendOTP(req.data)
+        return Response(res, status = status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        return Response(status = status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def verifyEmail(req):
+    try:
+        res = service.verifyEmail(req.data)
+        return Response(res, status = status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        return Response(status = status.HTTP_400_BAD_REQUEST)

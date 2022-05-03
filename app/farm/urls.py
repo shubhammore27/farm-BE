@@ -6,4 +6,6 @@ from . import views
 urlpatterns = [
     url(r'check', views.check, name='check'),
     url(r'farmer_registration', views.farmer_registration, name='farmer_registration'),
+    url(r'sendOTP', views.sendOTP, name='index'),
+    url(r'verifyEmail', views.verifyEmail, name='index'),
     ]
