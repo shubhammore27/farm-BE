@@ -51,3 +51,14 @@ def verifyEmail(req):
     except Exception as e:
         print("error", e)
         return { 'message' :'Request Failed.', 'status': status.HTTP_400_BAD_REQUEST}
+
+def login(req):
+    try:
+        res = Farmer_registration.objects.filter(farmer_email=req['username'],farmer_password=req['password']).count()
+        if res:
+            return { 'message' :'Login Successful.', 'status': status.HTTP_200_OK}
+        else:
+            return { 'message' :'Login Failed.', 'status': status.HTTP_400_BAD_REQUEST}
+    except Exception as e:
+        print("error", e)
+        return { 'message' :'Request Failed.', 'status': status.HTTP_400_BAD_REQUEST}

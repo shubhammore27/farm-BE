@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'farmer_registration', views.farmer_registration, name='farmer_registration'),
     url(r'sendOTP', views.sendOTP, name='index'),
     url(r'verifyEmail', views.verifyEmail, name='index'),
+    url(r'login', views.login, name='login'),
     ]
