@@ -34,7 +34,10 @@ def sendOTP(req):
 def verifyEmail(req):
     try:
         res = service.verifyEmail(req.data)
-        return Response(res, status = status.HTTP_200_OK)
+        if res.status == 200:
+            return Response(res, status = status.HTTP_200_OK)
+        else:
+            return Response(res, status = status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         print(e)
         return Response(status = status.HTTP_400_BAD_REQUEST)
@@ -43,7 +46,16 @@ def verifyEmail(req):
 def login(req):
     try:
         res = service.login(req.data)
-        return Response(res, status = status.HTTP_200_OK)
+        return Response(res)
+    except Exception as e:
+        print(e)
+        return Response(status = status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def add_product(req):
+    try:
+        res = service.addProduct(req)
+        return Response(res)
     except Exception as e:
         print(e)
         return Response(status = status.HTTP_400_BAD_REQUEST)

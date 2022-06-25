@@ -1,0 +1,8 @@
+https://technext.github.io/product-admin/accounts.html
+
+python manage.py makemigrations    
+python manage.py migrate 
+
+
+
+

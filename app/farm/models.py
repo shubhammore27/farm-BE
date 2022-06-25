@@ -25,3 +25,15 @@ class Otp(models.Model):
     class Meta:
         db_table = 'Otp'
 
+class Products(models.Model):
+    product_Id = models.AutoField(primary_key=True)
+    product_name = models.CharField(max_length=50)
+    product_category = models.CharField(max_length=50)
+    product_price = models.CharField(max_length=50)
+    product_offer = models.CharField(max_length=50)
+    product_brand = models.CharField(max_length=50)
+    product_description = models.CharField(max_length=100000)
+    product_img = models.ImageField(upload_to='images')
+    stock_size = models.IntegerField(default=1)
+    class Meta:
+        db_table = 'Products'
