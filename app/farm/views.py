@@ -54,7 +54,7 @@ def login(req):
 @api_view(['POST'])
 def add_product(req):
     try:
-        res = service.addProduct(req)
+        res = service.addProduct(req.data)
         return Response(res)
     except Exception as e:
         print(e)

@@ -33,7 +33,7 @@ class Products(models.Model):
     product_offer = models.CharField(max_length=50)
     product_brand = models.CharField(max_length=50)
     product_description = models.CharField(max_length=100000)
-    product_img = models.ImageField(upload_to='images')
+    product_img = models.CharField(max_length=500)
     stock_size = models.IntegerField(default=1)
     class Meta:
         db_table = 'Products'

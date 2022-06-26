@@ -65,21 +65,10 @@ def login(req):
 
 
 def addProduct(req):
-    print(req.FILES['product_img'])
     try:
-        form = Add_product_mapping(req.POST, req.FILES)
-        print(form.is_valid())
+        form = Add_product_mapping(req)
         if form.is_valid():
-            row = Products(product_name = req.POST['product_name'],
-                           product_category = req.POST['product_category'],
-                           product_price = req.POST['product_price'],
-                           product_offer = req.POST['product_offer'],
-                           product_brand = req.POST['product_brand'],
-                           product_description = req.POST['product_description'],
-                           stock_size = req.POST['stock_size'],
-                           product_img = req.FILES['product_img'])
-            row.save()
-
+            form.save()
         return {'message': 'Product added successfully.', 'status': status.HTTP_200_OK}
     except Exception as e:
         print(e)
