@@ -42,4 +42,3 @@ class Products(models.Model):
 
 
 
-        

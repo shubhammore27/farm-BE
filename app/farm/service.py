@@ -121,7 +121,6 @@ def getProduct(req):
         return {'message': 'Product not added..', 'status': status.HTTP_400_BAD_REQUEST}
 
 def updateProduct(req):
-    print(req)
     try:
         obj = get_object_or_404(Products, product_Id=req['product_Id'])
         Products.objects.filter( product_Id =  req['product_Id']).update(product_name = req['product_name']
@@ -136,3 +135,15 @@ def updateProduct(req):
     except Exception as e:
         print(e)
         return {'message': 'Product not added..', 'status': status.HTTP_400_BAD_REQUEST}
+
+def deleteProduct(req):
+    try:
+        print(req['product_id'])
+        res = Products.objects.filter(product_Id__in = req['product_id'])
+        if res.count() > 0:
+            res.delete()
+            return {'message': 'Product delete successfully.', 'status': status.HTTP_200_OK}
+        return {'message': 'Product not found.', 'status': status.HTTP_404_NOT_FOUND}
+    except Exception as e:
+        print(e)
+        return {'message': 'Something went wrong.', 'status': status.HTTP_400_BAD_REQUEST}
