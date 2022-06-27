@@ -9,10 +9,12 @@ from django.utils.translation import gettext_lazy as _
 class Farmer_registration(models.Model):
     farmer_id = models.AutoField(primary_key=True)
     farmer_name = models.CharField(max_length=50)
-    farmer_address = models.CharField(max_length=50)
-    farmer_phone = models.CharField(max_length=10)
+    farmer_address = models.CharField(max_length=100)
+    farmer_phone = models.CharField(max_length=50)
     farmer_email = models.EmailField(max_length=50)
     farmer_password = models.CharField(max_length=50)
+    farmer_img = models.CharField(max_length=255)
+    account_type = models.CharField(max_length=50)
     created_at = models.DateTimeField(default= datetime.datetime.now() , blank=True)
 
     class Meta:
@@ -37,3 +39,7 @@ class Products(models.Model):
     stock_size = models.IntegerField(default=1)
     class Meta:
         db_table = 'Products'
+
+
+
+        

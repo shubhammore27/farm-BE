@@ -22,6 +22,25 @@ def farmer_registration(req):
         return Response(status = status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
+def getFarmerDetails(req):
+    try:
+        res = service.getFarmerDetails(req.data)
+        return Response(res, status = status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        return Response(status = status.HTTP_400_BAD_REQUEST) 
+
+
+@api_view(['POST'])
+def updateProfile(req):
+    try:
+        res = service.updateProfile(req.data)
+        return Response(res, status = status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        return Response(status = status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
 def sendOTP(req):
     try:
         res = service.sendOTP(req.data)
@@ -45,6 +64,7 @@ def verifyEmail(req):
 @api_view(['POST'])
 def login(req):
     try:
+        print(req.data)
         res = service.login(req.data)
         return Response(res)
     except Exception as e:
@@ -59,3 +79,35 @@ def add_product(req):
     except Exception as e:
         print(e)
         return Response(status = status.HTTP_400_BAD_REQUEST)
+        
+@api_view(['GET'])
+def get_all_product(req):
+    try:
+        res = service.getAllProduct(req.data)
+        return Response(res)
+    except Exception as e:
+        print(e)
+        return Response(status = status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def get_product(req):
+    try:
+        res = service.getProduct(req.data)
+        return Response(res)
+    except Exception as e:
+        print(e)
+        return Response(status = status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def update_product(req):
+    try:
+        res = service.updateProduct(req.data)
+        return Response(res)
+    except Exception as e:
+        print(e)
+        return Response(status = status.HTTP_400_BAD_REQUEST)
+
+
+
+
