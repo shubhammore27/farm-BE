@@ -18,3 +18,15 @@ class Add_product_mapping(ModelForm):
     class Meta:
         model = Products
         fields = "__all__"
+
+class WishlistMapping(ModelForm):
+    class Meta:
+        model = WishList
+        fields =  "__all__"
+
+class CartMapping(ModelForm):
+    class Meta:
+        model = Cart
+        fields =  "__all__"
+
+

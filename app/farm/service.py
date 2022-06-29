@@ -55,8 +55,6 @@ def updateProfile(req):
         print(e)
         return {'message': 'Request Failed', 'status': status.HTTP_400_BAD_REQUEST}
 
-
-
 def sendOTP(req):
     try:
         OTP = random.randint(1000, 9999)
@@ -84,12 +82,11 @@ def login(req):
     try:
         if Farmer_registration.objects.filter(farmer_email=req['username'], farmer_password=req['password']).count() > 0:
             res = FarmerSerializer(Farmer_registration.objects.filter(farmer_email=req['username'], farmer_password=req['password']), many=True)
-            print(res.data)
             if res:
                 return {'data':res.data, 'status': status.HTTP_200_OK}
             pass
         else:
-            return {'message': 'Login Failed.', 'status': status.HTTP_400_BAD_REQUEST}
+            return {'message': 'Wrong username or password..', 'status': status.HTTP_400_BAD_REQUEST}
     except Exception as e:
         print("error", e)
         return {'message': 'Request Failed.', 'status': status.HTTP_400_BAD_REQUEST}
@@ -147,3 +144,68 @@ def deleteProduct(req):
     except Exception as e:
         print(e)
         return {'message': 'Something went wrong.', 'status': status.HTTP_400_BAD_REQUEST}
+
+def addToCart(req):
+    try:
+        fd = CartMapping(req)
+        if fd.is_valid():
+            fd.save()
+            return {'message': 'Product Added To Cart.', 'status': status.HTTP_200_OK}
+        else:
+            return {'message': 'Request Failed.', 'status': status.HTTP_400_BAD_REQUEST}
+    except Exception as e:
+        print(e)
+        return {'message': 'Registration Failed.', 'status': status.HTTP_400_BAD_REQUEST}
+
+def getCart(req):
+    try:
+        res = Cart.objects.filter(farmer_id=req['farmer_id'])
+        if res.count() > 0:
+            res = CartSerializerSerializer(res, many=True)
+            return {'data': res.data, 'status': status.HTTP_200_OK}
+        else:
+            return {'message': 'Request Failed.', 'status': status.HTTP_400_BAD_REQUEST}
+    except Exception as e:
+        print(e)
+        return {'message': 'Request Failed.', 'status': status.HTTP_400_BAD_REQUEST}
+
+def addToWishList(req):
+    try:
+        fd = WishlistMapping(req)
+        if fd.is_valid():
+            fd.save()
+            return {'message': 'Product Added To Wishlist.', 'status': status.HTTP_200_OK}
+        else:
+            return {'message': 'Request Failed.', 'status': status.HTTP_400_BAD_REQUEST}
+    except Exception as e:
+        print(e)
+        return {'message': 'Registration Failed.', 'status': status.HTTP_400_BAD_REQUEST}
+
+def getWishList(req):
+    try:
+        res = WishList.objects.filter(farmer_id=req['farmer_id'])
+        if res.count() > 0:
+            res = WishListSerializer(res, many=True)
+            return {'data': res.data, 'status': status.HTTP_200_OK}
+        else:
+            return {'message': 'Request Failed.', 'status': status.HTTP_400_BAD_REQUEST}
+    except Exception as e:
+        print(e)
+        return {'message': 'Request Failed.', 'status': status.HTTP_400_BAD_REQUEST}
+
+def deleteFromWishList(req):
+    try:
+        WishList.objects.filter(farmer_id=req['farmer_id'], product_id=req['product_id']).delete()
+        return {'message': 'Deleted Successfully', 'status': status.HTTP_200_OK}
+    except Exception as e:
+        print(e)
+        return {'message': 'Request Failed.', 'status': status.HTTP_400_BAD_REQUEST}
+
+def deleteFromCart(req):
+    try:
+        Cart.objects.filter(farmer_id=req['farmer_id'], product_id=req['product_id']).delete()
+        return {'message': 'Deleted Successfully', 'status': status.HTTP_200_OK}
+    except Exception as e:
+        print(e)
+        return {'message': 'Request Failed.', 'status': status.HTTP_400_BAD_REQUEST}
+

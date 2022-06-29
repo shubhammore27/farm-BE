@@ -16,8 +16,19 @@ urlpatterns = [
     url(r'verifyEmail', views.verifyEmail, name='index'),
     url(r'login', views.login, name='login'),
 
+    # Farmers API's
+    url(r'getCard', views.getCart, name='getCart'),
+    url(r'addToCart', views.addToCart, name='addToCart'),
+    url(r'getWishList', views.getWishList, name='getWishList'),
+    url(r'addToWishList', views.addToWishList, name='addToWishList'),
 
-    # ADMIN API'S
+    url(r'deleteFromWishList', views.deleteFromWishList, name='deleteFromWishList'),
+    url(r'deleteFromCart', views.deleteFromCart, name='deleteFromCart'),
+
+
+
+
+    # ADMIN API's
     url(r'add_product', views.add_product, name='add-product'),
     url(r'get_all_product', views.get_all_product, name='get-all-product'),
     url(r'get_product', views.get_product, name='get-product'),

@@ -30,7 +30,6 @@ def getFarmerDetails(req):
         print(e)
         return Response(status = status.HTTP_400_BAD_REQUEST) 
 
-
 @api_view(['POST'])
 def updateProfile(req):
     try:
@@ -77,7 +76,7 @@ def add_product(req):
     except Exception as e:
         print(e)
         return Response(status = status.HTTP_400_BAD_REQUEST)
-        
+
 @api_view(['GET'])
 def get_all_product(req):
     try:
@@ -110,6 +109,62 @@ def update_product(req):
 def deleteProduct(req):
     try:
         res = service.deleteProduct(req.data)
+        return Response(res)
+    except Exception as e:
+        print(e)
+        return Response(status = status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def getCart(req):
+    try:
+        res = service.getCart(req.data)
+        return Response(res)
+    except Exception as e:
+        print(e)
+        return Response(status = status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def addToCart(req):
+    try:
+        res = service.addToCart(req.data)
+        return Response(res)
+    except Exception as e:
+        print(e)
+        return Response(status = status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def getWishList(req):
+    try:
+        res = service.getWishList(req.data)
+        return Response(res)
+    except Exception as e:
+        print(e)
+        return Response(status = status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def addToWishList(req):
+    try:
+        res = service.addToWishList(req.data)
+        return Response(res)
+    except Exception as e:
+        print(e)
+        return Response(status = status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def deleteFromWishList(req):
+    try:
+        res = service.deleteFromWishList(req.data)
+        return Response(res)
+    except Exception as e:
+        print(e)
+        return Response(status = status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def deleteFromCart(req):
+    try:
+        res = service.deleteFromCart(req.data)
         return Response(res)
     except Exception as e:
         print(e)
