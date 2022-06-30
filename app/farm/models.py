@@ -6,6 +6,9 @@ import datetime
 from django.utils.translation import gettext_lazy as _
 from numpy import product
 
+from datetime import datetime, timezone
+
+
 # Create your models here.
 class Farmer_registration(models.Model):
     farmer_id = models.AutoField(primary_key=True)
@@ -16,7 +19,7 @@ class Farmer_registration(models.Model):
     farmer_password = models.CharField(max_length=50)
     farmer_img = models.CharField(max_length=255)
     account_type = models.CharField(max_length=50)
-    created_at = models.DateTimeField(default= datetime.datetime.now() , blank=True)
+    created_at = models.DateTimeField(default= datetime.utcnow().replace(tzinfo=timezone.utc) , blank=True)
     class Meta:
         db_table = 'Farmer'
 
@@ -45,7 +48,7 @@ class WishList(models.Model):
     wishList_id = models.AutoField(primary_key=True)
     farmer_id = models.ForeignKey(Farmer_registration, on_delete=models.CASCADE)
     product_id = models.ForeignKey(Products, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(default= datetime.datetime.now() , blank=True)
+    created_at = models.DateTimeField(default= datetime.utcnow().replace(tzinfo=timezone.utc) , blank=True)
 
     class Meta:
         db_table = 'WishList'
@@ -54,7 +57,7 @@ class Cart(models.Model):
     cart_id = models.AutoField(primary_key=True)
     farmer_id = models.ForeignKey(Farmer_registration, on_delete=models.CASCADE)
     product_id = models.ForeignKey(Products, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(default= datetime.datetime.now() , blank=True)
+    created_at = models.DateTimeField(default= datetime.utcnow().replace(tzinfo=timezone.utc) , blank=True)
     class Meta:
         db_table = 'Cart'
 

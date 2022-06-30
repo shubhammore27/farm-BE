@@ -17,7 +17,7 @@ urlpatterns = [
     url(r'login', views.login, name='login'),
 
     # Farmers API's
-    url(r'getCard', views.getCart, name='getCart'),
+    url(r'getCart', views.getCart, name='getCart'),
     url(r'addToCart', views.addToCart, name='addToCart'),
     url(r'getWishList', views.getWishList, name='getWishList'),
     url(r'addToWishList', views.addToWishList, name='addToWishList'),

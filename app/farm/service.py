@@ -111,8 +111,30 @@ def getAllProduct(req):
 
 def getProduct(req):
     try:
-        product_list = ProductSerializers(Products.objects.filter(product_Id =  req['product_Id']), many=True)
-        return {'data': product_list.data, 'status': status.HTTP_200_OK}
+        if(req['cart'] == True):
+            res = Cart.objects.filter(farmer_id=req['farmer_id'])
+            if res.count() > 0:
+                res = CartSerializerSerializer(res, many=True)
+                list = []
+                for value in res.data:
+                    list.append(value['product_id'])
+            product_list = ProductSerializers(Products.objects.filter(product_Id__in =  list), many=True)
+        elif(req['wishlist'] == True):
+            res = WishList.objects.filter(farmer_id=req['farmer_id'])
+            print(res)
+            if res.count() > 0:
+                res = WishListSerializer(res, many=True)
+                list = []
+                for value in res.data:
+                    list.append(value['product_id'])
+            product_list = ProductSerializers(Products.objects.filter(product_Id__in =  list), many=True)
+        else:
+            product_list = ProductSerializers(Products.objects.filter(product_Id =  req['product_Id']), many=True)
+        
+        if(len(product_list.data)) > 0 :
+            return {'data': product_list.data, 'status': status.HTTP_200_OK}
+        else:
+            return {'message': 'Product not added..', 'status': status.HTTP_400_BAD_REQUEST}
     except Exception as e:
         print(e)
         return {'message': 'Product not added..', 'status': status.HTTP_400_BAD_REQUEST}
@@ -162,9 +184,12 @@ def getCart(req):
         res = Cart.objects.filter(farmer_id=req['farmer_id'])
         if res.count() > 0:
             res = CartSerializerSerializer(res, many=True)
-            return {'data': res.data, 'status': status.HTTP_200_OK}
+            list = []
+            for value in res.data:
+                list.append(value['product_id'])
+            return {'data': list, 'status': status.HTTP_200_OK}
         else:
-            return {'message': 'Request Failed.', 'status': status.HTTP_400_BAD_REQUEST}
+            return {'message': 'No Product added to cart', 'status': status.HTTP_400_BAD_REQUEST}
     except Exception as e:
         print(e)
         return {'message': 'Request Failed.', 'status': status.HTTP_400_BAD_REQUEST}
@@ -172,14 +197,16 @@ def getCart(req):
 def addToWishList(req):
     try:
         fd = WishlistMapping(req)
+        print(fd)
+        print(fd.is_valid())
         if fd.is_valid():
             fd.save()
             return {'message': 'Product Added To Wishlist.', 'status': status.HTTP_200_OK}
         else:
-            return {'message': 'Request Failed.', 'status': status.HTTP_400_BAD_REQUEST}
+            return {'message': 'Request Failed.', 'status': status.HTTP_500_INTERNAL_SERVER_ERROR}
     except Exception as e:
         print(e)
-        return {'message': 'Registration Failed.', 'status': status.HTTP_400_BAD_REQUEST}
+        return {'message': 'Request Failed.', 'status': status.HTTP_400_BAD_REQUEST}
 
 def getWishList(req):
     try:
@@ -188,7 +215,7 @@ def getWishList(req):
             res = WishListSerializer(res, many=True)
             return {'data': res.data, 'status': status.HTTP_200_OK}
         else:
-            return {'message': 'Request Failed.', 'status': status.HTTP_400_BAD_REQUEST}
+            return {'message': 'No products in wishlist', 'status': status.HTTP_400_BAD_REQUEST}
     except Exception as e:
         print(e)
         return {'message': 'Request Failed.', 'status': status.HTTP_400_BAD_REQUEST}
@@ -207,5 +234,5 @@ def deleteFromCart(req):
         return {'message': 'Deleted Successfully', 'status': status.HTTP_200_OK}
     except Exception as e:
         print(e)
-        return {'message': 'Request Failed.', 'status': status.HTTP_400_BAD_REQUEST}
+        return {'message': e, 'status': status.HTTP_400_BAD_REQUEST}
 
