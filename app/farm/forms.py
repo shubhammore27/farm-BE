@@ -29,4 +29,9 @@ class CartMapping(ModelForm):
         model = Cart
         fields =  "__all__"
 
+class ChatMapping(ModelForm):
+    class Meta:
+        model = Chat
+        fields =  "__all__"
+
 

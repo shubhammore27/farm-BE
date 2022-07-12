@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models.base import Model
-import datetime 
+import datetime
+from django.dispatch import receiver 
 # import jsonfield
 from django.utils.translation import gettext_lazy as _
 from numpy import product
@@ -23,8 +24,6 @@ class Farmer_registration(models.Model):
     class Meta:
         db_table = 'Farmer'
 
-
-
 class Otp(models.Model):
     otp = models.CharField(max_length=50, blank=True, null= True)
     email = models.CharField(max_length=50, blank=True, null= True)
@@ -41,6 +40,8 @@ class Products(models.Model):
     product_description = models.CharField(max_length=100000)
     product_img = models.CharField(max_length=500)
     stock_size = models.IntegerField(default=1)
+    product_added_by = models.CharField(max_length=50)
+    product_added_by_id = models.CharField(max_length=50)
     class Meta:
         db_table = 'Products'
 
@@ -61,6 +62,17 @@ class Cart(models.Model):
     class Meta:
         db_table = 'Cart'
 
+class Chat(models.Model):
+    chat_id = models.AutoField(primary_key=True)
+    chat_content = models.CharField(max_length=500)
+    sender_id = models.CharField(max_length=500)
+    receiver_id = models.CharField(max_length=500)
+    created_at = models.DateTimeField(default= datetime.utcnow().replace(tzinfo=timezone.utc) , blank=True)
 
+    class Meta:
+        db_table = 'Chat'
 
-
+class Auth(models.Model):
+    auth = models.CharField(max_length=500)
+    class Meta:
+        db_table = 'Auth'

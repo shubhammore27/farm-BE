@@ -13,6 +13,15 @@ def check(req):
     return Response(res)
 
 @api_view(['POST'])
+def auth(req):
+    try:
+        res = service.auth(req.data)
+        return Response(res, status = status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        return Response(status = status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
 def farmer_registration(req):
     try:
         res = service.farmer_registration(req.data)
@@ -77,7 +86,7 @@ def add_product(req):
         print(e)
         return Response(status = status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET'])
+@api_view(['POST'])
 def get_all_product(req):
     try:
         res = service.getAllProduct(req.data)
@@ -165,6 +174,35 @@ def deleteFromWishList(req):
 def deleteFromCart(req):
     try:
         res = service.deleteFromCart(req.data)
+        return Response(res)
+    except Exception as e:
+        print(e)
+        return Response(status = status.HTTP_400_BAD_REQUEST)
+
+
+
+@api_view(['POST'])
+def getProfileForChat(req):
+    try:
+        res = service.getProfileForChat(req.data)
+        return Response(res)
+    except Exception as e:
+        print(e)
+        return Response(status = status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def getChat(req):
+    try:
+        res = service.getChat(req.data)
+        return Response(res)
+    except Exception as e:
+        print(e)
+        return Response(status = status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def sendChat(req):
+    try:
+        res = service.sendChat(req.data)
         return Response(res)
     except Exception as e:
         print(e)

@@ -28,6 +28,17 @@ def farmer_registration(req):
         print(e)
         return {'message': 'Registration Failed.', 'status': status.HTTP_400_BAD_REQUEST}
 
+def auth(req):
+    try:
+        res = Auth.objects.filter(id=req['id'])
+        if res.count() > 0:
+            return {'data': res.values_list('auth') , 'status': status.HTTP_200_OK}
+        else:
+            return {'message': 'Request Failed.', 'status': status.HTTP_409_CONFLICT}
+    except Exception as e:
+        print(e)
+        return {'message': 'Request Failed.', 'status': status.HTTP_400_BAD_REQUEST}
+
 def getFarmerDetails(req):
     try:
         res = Farmer_registration.objects.filter(farmer_id = req['farmer_id'])
@@ -103,11 +114,18 @@ def addProduct(req):
 
 def getAllProduct(req):
     try:
-        product_list = ProductSerializers(Products.objects.all(), many=True)
+        if req['userType'] == 'Admin':
+            product_list = ProductSerializers(Products.objects.all(), many=True)
+        elif req['userType'] == 'Seller':
+            id  =int(req['userId'])
+            product_list = ProductSerializers(Products.objects.filter(product_added_by = req['userType']), many=True)
+        else:
+            product_list = ProductSerializers(Products.objects.all(), many=True)
         return {'data': product_list.data, 'status': status.HTTP_200_OK}
     except Exception as e:
+        print('Exception')
         print(e)
-        return {'message': 'Product not added..', 'status': status.HTTP_400_BAD_REQUEST}
+        return {'message': 'Something went wrong..', 'status': status.HTTP_400_BAD_REQUEST}
 
 def getProduct(req):
     try:
@@ -134,10 +152,10 @@ def getProduct(req):
         if(len(product_list.data)) > 0 :
             return {'data': product_list.data, 'status': status.HTTP_200_OK}
         else:
-            return {'message': 'Product not added..', 'status': status.HTTP_400_BAD_REQUEST}
+            return {'message': 'Something went wrong..', 'status': status.HTTP_400_BAD_REQUEST}
     except Exception as e:
         print(e)
-        return {'message': 'Product not added..', 'status': status.HTTP_400_BAD_REQUEST}
+        return {'message': 'Something went wrong..', 'status': status.HTTP_400_BAD_REQUEST}
 
 def updateProduct(req):
     try:
@@ -153,7 +171,7 @@ def updateProduct(req):
         return {'message': 'Product updated successfully.', 'status': status.HTTP_200_OK}
     except Exception as e:
         print(e)
-        return {'message': 'Product not added..', 'status': status.HTTP_400_BAD_REQUEST}
+        return {'message': 'Something went wrong', 'status': status.HTTP_400_BAD_REQUEST}
 
 def deleteProduct(req):
     try:
@@ -236,3 +254,36 @@ def deleteFromCart(req):
         print(e)
         return {'message': e, 'status': status.HTTP_400_BAD_REQUEST}
 
+def getProfileForChat(req):
+    try:
+        res = Farmer_registration.objects.filter(account_type__in = req['get'])
+        print(res)
+        res = FarmerSerializer(res, many=True)
+        return {'data': res.data, 'status': status.HTTP_200_OK}
+
+    except Exception as e:
+        return {'message': e, 'status': status.HTTP_400_BAD_REQUEST}
+
+def sendChat(req):
+    try:
+        fd = ChatMapping(req)
+        print(fd.is_valid())
+        print(fd)
+        if fd.is_valid():
+            fd.save()
+            return {'message': 'Message Sent.', 'status': status.HTTP_200_OK}
+        else:
+            return {'message': 'Request Failed.', 'status': status.HTTP_400_BAD_REQUEST}
+    except Exception as e:
+        print(e)
+        return {'message': e, 'status': status.HTTP_400_BAD_REQUEST}
+
+def getChat(req):
+    try:
+        res = Chat.objects.filter(sender_id__in = [req['receiver_id'], req['sender_id'] ], receiver_id__in = [req['receiver_id'], req['sender_id'] ])
+        res = ChatSerializer(res, many=True)
+        return {'data': res.data, 'status': status.HTTP_200_OK}
+
+    except Exception as e:
+        print(e)
+        return {'message': e, 'status': status.HTTP_400_BAD_REQUEST}
