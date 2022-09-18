@@ -31,3 +31,10 @@ class ChatSerializer(serializers.ModelSerializer):
         class Meta:
             model = Chat
             fields = '__all__'
+
+class PurchesSerializer(serializers.ModelSerializer):
+        class Meta:
+            model =Purches
+            fields = '__all__'
+
+

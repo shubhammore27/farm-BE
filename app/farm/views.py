@@ -208,6 +208,27 @@ def sendChat(req):
         print(e)
         return Response(status = status.HTTP_400_BAD_REQUEST)
 
+@api_view(['POST'])
+def purches(req):
+    try:
+        res = service.purches(req.data)
+        return Response(res)
+    except Exception as e:
+        print(e)
+        return Response(status = status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def getPurches(req):
+    try:
+        res = service.getPurches(req.data)
+        return Response(res)
+    except Exception as e:
+        print(e)
+        return Response(status = status.HTTP_400_BAD_REQUEST)
+
+
+
+
 
 
 

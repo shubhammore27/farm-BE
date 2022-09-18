@@ -28,13 +28,21 @@ urlpatterns = [
     url(r'addToWishList', views.addToWishList, name='addToWishList'),
     url(r'deleteFromWishList', views.deleteFromWishList, name='deleteFromWishList'),
     url(r'deleteFromCart', views.deleteFromCart, name='deleteFromCart'),
+    url(r'purches', views.purches, name='purches'),
+
+
+
     # ADMIN API's
     url(r'add_product', views.add_product, name='add-product'),
     url(r'get_all_product', views.get_all_product, name='get-all-product'),
     url(r'get_product', views.get_product, name='get-product'),
     url(r'update_product', views.update_product, name='update-product'),
     url(r'deleteProduct', views.deleteProduct, name='delete-product'),
+    url(r'getPurches', views.getPurches, name='getPurches'),
     
+
+
+
     ]
 
 

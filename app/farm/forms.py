@@ -34,4 +34,10 @@ class ChatMapping(ModelForm):
         model = Chat
         fields =  "__all__"
 
+class PurchesMapping(ModelForm):
+    class Meta:
+        model = Purches
+        fields =  "__all__"
+
+
 

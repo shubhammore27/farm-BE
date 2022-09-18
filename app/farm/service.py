@@ -286,4 +286,27 @@ def getChat(req):
 
     except Exception as e:
         print(e)
+        return {'message': e, 'status': status.HTTP_400_BAD_REQUEST} 
+
+def purches(req):
+    try:
+        for product in req:
+            fd = PurchesMapping(product)
+            if fd.is_valid():
+                fd.save()
+        Cart.objects.filter(farmer_id=req[0]['farmer_id']).delete()
+        return {'message': 'Purchess Succsessfull.', 'status': status.HTTP_200_OK}
+    except Exception as e:
+        print(e)
         return {'message': e, 'status': status.HTTP_400_BAD_REQUEST}
+
+
+def getPurches(req):
+    try:
+        res = Purches.objects.all()
+        res = PurchesSerializer(res, many=True)
+        return {'data': res.data, 'status': status.HTTP_200_OK}
+
+    except Exception as e:
+        print(e)
+        return {'message': e, 'status': status.HTTP_400_BAD_REQUEST} 

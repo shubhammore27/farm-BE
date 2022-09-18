@@ -73,6 +73,18 @@ class Chat(models.Model):
         db_table = 'Chat'
 
 class Auth(models.Model):
+
     auth = models.CharField(max_length=500)
     class Meta:
         db_table = 'Auth'
+
+class Purches(models.Model):
+    product_name = models.CharField(max_length=50)
+    product_category = models.CharField(max_length=50)
+    product_price = models.CharField(max_length=50)
+    product_added_by_id = models.CharField(max_length=50)
+    product_added_by = models.CharField(max_length=50)
+    created_at = models.DateTimeField(default= datetime.utcnow().replace(tzinfo=timezone.utc) , blank=True)
+
+    class Meta:
+        db_table = 'Purches'
