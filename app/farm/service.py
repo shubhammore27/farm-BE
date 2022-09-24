@@ -13,10 +13,12 @@ from django.shortcuts import get_object_or_404
 
 def farmer_registration(req):
     try:
+        print(req)
         fd = Farmer_registration_mapping(req)
+        print(fd.is_valid())
+        print(fd)
         if fd.is_valid():
-            is_exists = Farmer_registration.objects.filter(
-                farmer_email=req['farmer_email']).exists()
+            is_exists = Farmer_registration.objects.filter(farmer_email=req['farmer_email']).exists()
             if not is_exists:
                 fd.save()
                 return {'message': 'Registration Successful.', 'status': status.HTTP_200_OK}
@@ -299,7 +301,6 @@ def purches(req):
     except Exception as e:
         print(e)
         return {'message': e, 'status': status.HTTP_400_BAD_REQUEST}
-
 
 def getPurches(req):
     try:
